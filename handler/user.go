@@ -5,10 +5,26 @@ import (
 
 	log "github.com/micro/micro/v3/service/logger"
 
+	"user/domain/model"
+	"user/domain/service"
 	user "user/proto"
 )
 
-type User struct{}
+type User struct {
+	UserDataService service.IUserDataService
+}
+
+func (u *User) Register(ctx context.Context, req *user.Request, rsp *user.Response) error {
+	user := &model.User{
+		UserName: req.Name,
+	}
+	_, err := u.UserDataService.AddUser(user)
+	if err != nil {
+		return err
+	}
+	rsp.Msg = "add user success" // 不用返回resp，只需要把proto上的resp对应信息或整体替换掉就自动返回
+	return nil
+}
 
 // Call is a single request handler called via client.Call or the generated client code
 func (e *User) Call(ctx context.Context, req *user.Request, rsp *user.Response) error {

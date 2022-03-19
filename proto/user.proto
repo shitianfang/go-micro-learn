@@ -8,6 +8,9 @@ service User {
 	rpc Call(Request) returns (Response) {}
 	rpc Stream(StreamingRequest) returns (stream StreamingResponse) {}
 	rpc PingPong(stream Ping) returns (stream Pong) {}
+	rpc Register(Request) returns (Response) {}
+	rpc Login(Request) returns (Response) {}
+	rpc GetUserInfo(Request) returns (Response) {}
 }
 
 message Message {
@@ -19,7 +22,8 @@ message Request {
 }
 
 message Response {
-	string msg = 1;
+	int64 id = 1;
+	string msg = 2;
 }
 
 message StreamingRequest {
